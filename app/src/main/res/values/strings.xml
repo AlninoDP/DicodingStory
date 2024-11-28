@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Dicoding Story</string>
+
+    <string name="logo_description">Dicoding Logo</string>
+    <string name="stories_image_description">Image of The Story</string>
+    <string name="btn_add_story_description">Add Your Story</string>
+    <string name="story_content_description">Description of The Story</string>
+
+    <string name="permission_granted">Permission Granted</string>
+    <string name="permission_denied">Permission Denied</string>
+
+    <string name="empty_image">Select Image First !</string>
+    <string name="empty_description">Story Description is Empty!</string>
+
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="your_name">Your Name</string>
+    <string name="log_out">Log Out</string>
+
+    <string name="empty_name">Name is Empty!</string>
+    <string name="invalid_email">Invalid Email!</string>
+    <string name="invalid_password">Password must be 8 character or more!</string>
+
+    <string name="text_header_login">Please sign in to your account to share your story</string>
+    <string name="text_header_register">Register your account here and start sharing your story</string>
+
+    <string name="have_no_account">didn\'t have an account ?</string>
+    <string name="has_account">already have an account ?</string>
+
+    <string name="stories_user_name">by %s</string>
+    <string name="list_of_story">List of Story</string>
+    <string name="story_detail">Story Detail</string>
+    <string name="story_detail_description">Story Description</string>
+
+    <string name="btn_open_camera">Camera</string>
+    <string name="btn_open_gallery">Gallery</string>
+    <string name="btn_upload">Upload</string>
+
+</resources>

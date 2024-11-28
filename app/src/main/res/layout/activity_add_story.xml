@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.addstory.AddStoryActivity">
+
+    <!--  AppBar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/top_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/navy_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/list_of_story"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ProgressBar
+        android:id="@+id/add_story_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/add_story_edt_description"
+        app:layout_constraintStart_toStartOf="@+id/add_story_edt_description"
+        app:layout_constraintTop_toBottomOf="@+id/add_story_edt_description" />
+
+    <ImageView
+        android:id="@+id/add_story_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/stories_image_description"
+        android:scaleType="fitCenter"
+        android:src="@drawable/image_placeholder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_app_bar" />
+
+    <LinearLayout
+        android:id="@+id/add_story_row_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_story_image">
+
+        <Button
+            android:id="@+id/add_story_camera_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:backgroundTint="@color/navy_blue"
+            android:text="@string/btn_open_camera"
+            app:layout_constraintTop_toBottomOf="@+id/add_story_image"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/add_story_gallery_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:backgroundTint="@color/navy_blue"
+            android:text="@string/btn_open_gallery"
+            app:layout_constraintTop_toBottomOf="@+id/add_story_image"
+            tools:ignore="ButtonStyle" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/add_story_edt_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:autofillHints="description"
+        android:background="@drawable/story_description_background"
+        android:gravity="top|start"
+        android:hint="@string/story_content_description"
+        android:inputType="textMultiLine"
+        android:lines="5"
+        android:padding="16dp"
+        android:scrollbars="vertical"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_story_row_btn" />
+
+    <Button
+        android:id="@+id/add_goal_btn_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/navy_blue"
+        android:text="@string/btn_upload"
+        app:layout_constraintEnd_toEndOf="@+id/add_story_edt_description"
+        app:layout_constraintStart_toStartOf="@+id/add_story_edt_description"
+        app:layout_constraintTop_toBottomOf="@+id/add_story_edt_description" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
