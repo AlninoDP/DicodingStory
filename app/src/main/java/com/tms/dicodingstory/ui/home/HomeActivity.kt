@@ -43,6 +43,10 @@ class HomeActivity : AppCompatActivity() {
                 showLoading(false)
                 true
             }
+            R.id.action_language -> {
+                startActivity(Intent(android.provider.Settings.ACTION_LOCALE_SETTINGS))
+                true
+            }
 
             else -> super.onOptionsItemSelected(item)
         }

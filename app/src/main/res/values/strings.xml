@@ -18,6 +18,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="your_name">Your Name</string>
     <string name="log_out">Log Out</string>
+    <string name="language_settings">Language Settings</string>
 
     <string name="empty_name">Name is Empty !</string>
     <string name="invalid_email">Invalid Email!</string>
@@ -37,5 +38,7 @@
     <string name="btn_open_camera" translatable="false">Camera</string>
     <string name="btn_open_gallery" translatable="false">Gallery</string>
     <string name="btn_upload_story">Upload Story</string>
+
+
 
 </resources>

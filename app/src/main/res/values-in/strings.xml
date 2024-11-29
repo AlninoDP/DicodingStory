@@ -24,5 +24,7 @@
     <string name="story_detail">Detail Cerita</string>
     <string name="story_detail_description">Deskripsi Cerita</string>
     <string name="btn_upload_story">Unggah Cerita</string>
+    <string name="language_settings">Pengaturan Bahasa</string>
+
 
 </resources>
