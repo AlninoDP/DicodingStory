@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -45,6 +44,7 @@ class AddStoryActivity : AppCompatActivity() {
         val viewModelFactory = ViewModelFactory.getInstance(this)
         addStoryViewModel = viewModels<AddStoryViewModel> { viewModelFactory }.value
 
+        setUpAppbar()
         requestPermissionsIfNeeded()
         showImage()
 
@@ -127,8 +127,6 @@ class AddStoryActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
             if (uri != null) {
                 addStoryViewModel.setImageUri(uri)
-            } else {
-                Log.d("Photo Picker", "No Media Selected")
             }
         }
 
@@ -172,6 +170,18 @@ class AddStoryActivity : AppCompatActivity() {
             binding.addStoryProgressBar.visibility = View.GONE
             binding.addGoalBtnUpload.visibility = View.VISIBLE
         }
+    }
+
+    private fun setUpAppbar() {
+        setSupportActionBar(binding.topAppBar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        binding.topAppBar.navigationIcon?.setTint(ContextCompat.getColor(this, R.color.white))
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 
     companion object {

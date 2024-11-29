@@ -1,7 +1,12 @@
 package com.tms.dicodingstory.data.remote.retrofit
 
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.tms.dicodingstory.BuildConfig
+import com.tms.dicodingstory.data.PreferencesRepository
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -11,7 +16,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ApiConfig {
 
     companion object {
-        fun getApiService(token:String): ApiService {
+        fun getApiService(datastore: DataStore<Preferences>): ApiService {
+
+            val pref = PreferencesRepository.getInstance(datastore)
 
             val loggingInterceptor = if (BuildConfig.DEBUG) {
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -19,12 +26,15 @@ class ApiConfig {
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
             }
 
-            val authInterceptor = Interceptor{chain ->
-                val req = chain.request()
-                val requestHeaders = req.newBuilder()
-                    .addHeader("Authorization", "Bearer $token")
-                    .build()
-                chain.proceed(requestHeaders)
+            val authInterceptor = Interceptor { chain ->
+                val requestBuilder = chain.request().newBuilder()
+                val authToken = runBlocking {
+                    pref.getUserToken().firstOrNull()?.token
+                }
+                if (!authToken.isNullOrEmpty()) {
+                    requestBuilder.addHeader("Authorization", "Bearer $authToken")
+                }
+                chain.proceed(requestBuilder.build())
             }
 
             val client = OkHttpClient.Builder()

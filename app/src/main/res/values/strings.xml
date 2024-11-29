@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Dicoding Story</string>
+    <string name="app_name" translatable="false">Dicoding Story</string>
 
-    <string name="logo_description">Dicoding Logo</string>
+    <string name="logo_description" translatable="false">Dicoding Logo</string>
     <string name="stories_image_description">Image of The Story</string>
     <string name="btn_add_story_description">Add Your Story</string>
     <string name="story_content_description">Description of The Story</string>
@@ -10,16 +10,16 @@
     <string name="permission_denied">Permission Denied</string>
 
     <string name="empty_image">Select Image First !</string>
-    <string name="empty_description">Story Description is Empty!</string>
+    <string name="empty_description">Story Description is Empty !</string>
 
-    <string name="email">Email</string>
-    <string name="password">Password</string>
+    <string name="email" translatable="false">Email</string>
+    <string name="password" translatable="false">Password</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
     <string name="your_name">Your Name</string>
     <string name="log_out">Log Out</string>
 
-    <string name="empty_name">Name is Empty!</string>
+    <string name="empty_name">Name is Empty !</string>
     <string name="invalid_email">Invalid Email!</string>
     <string name="invalid_password">Password must be 8 character or more!</string>
 
@@ -34,8 +34,8 @@
     <string name="story_detail">Story Detail</string>
     <string name="story_detail_description">Story Description</string>
 
-    <string name="btn_open_camera">Camera</string>
-    <string name="btn_open_gallery">Gallery</string>
-    <string name="btn_upload">Upload</string>
+    <string name="btn_open_camera" translatable="false">Camera</string>
+    <string name="btn_open_gallery" translatable="false">Gallery</string>
+    <string name="btn_upload_story">Upload Story</string>
 
 </resources>

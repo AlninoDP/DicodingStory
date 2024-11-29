@@ -1,7 +1,6 @@
 package com.tms.dicodingstory.data
 
 import android.content.Context
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -18,7 +17,7 @@ data class User(
     val token: String
 )
 
-class PreferencesRepository private constructor(
+class PreferencesRepository(
     private val dataStore: DataStore<Preferences>
 ) {
 

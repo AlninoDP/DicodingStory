@@ -1,10 +1,9 @@
 package com.tms.dicodingstory.ui.auth.login
 
-import android.content.Context
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -33,11 +32,10 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        playAnimation()
 
         val viewModelFactory = ViewModelFactory.getInstance(this)
         val loginViewModel by viewModels<LoginViewModel> { viewModelFactory }
-
-
 
         binding.apply {
             btnGoToRegister.setOnClickListener {
@@ -68,12 +66,14 @@ class LoginActivity : AppCompatActivity() {
                 is Result.Success -> {
                     val response = result.data
                     if (!response.error) {
-//                        showToast(response.message)
+                        showToast(response.message)
                         startActivity(Intent(this, HomeActivity::class.java))
+                        finish()
                     } else {
                         showToast(response.message)
                     }
                 }
+
                 is Result.Failure -> showToast(result.throwable.message.toString())
 
             }
@@ -94,4 +94,40 @@ class LoginActivity : AppCompatActivity() {
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
+
+    private fun playAnimation() {
+        ObjectAnimator.ofFloat(binding.imgDicodingLogin, View.TRANSLATION_X, -30f, 30f).apply {
+            duration = 6000
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+        }.start()
+
+        val animationDuration = 500L
+
+        val tvHeaderLogin =
+            ObjectAnimator.ofFloat(binding.tvHeaderLogin, View.ALPHA, 1f)
+                .setDuration(animationDuration)
+        val emailForm = ObjectAnimator.ofFloat(binding.loginEmailForm, View.ALPHA, 1f)
+            .setDuration(animationDuration)
+        val passwordForm =
+            ObjectAnimator.ofFloat(binding.loginPasswordForm, View.ALPHA, 1f)
+                .setDuration(animationDuration)
+        val btnSignIn =
+            ObjectAnimator.ofFloat(binding.btnSignIn, View.ALPHA, 1f).setDuration(animationDuration)
+        val textNoAcc = ObjectAnimator.ofFloat(binding.tvNoAccount, View.ALPHA, 1f)
+            .setDuration(animationDuration)
+        val btnGoToRegister =
+            ObjectAnimator.ofFloat(binding.btnGoToRegister, View.ALPHA, 1f)
+                .setDuration(animationDuration)
+
+        val together = AnimatorSet().apply {
+            playTogether(emailForm, passwordForm)
+        }
+
+        AnimatorSet().apply {
+            playSequentially(tvHeaderLogin, together, btnSignIn, textNoAcc, btnGoToRegister)
+            start()
+        }
+    }
+
 }

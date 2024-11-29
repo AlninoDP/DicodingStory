@@ -1,16 +1,13 @@
 package com.tms.dicodingstory.ui.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.tms.dicodingstory.data.MainRepository
 import com.tms.dicodingstory.data.PreferencesRepository
 import com.tms.dicodingstory.data.Result
-import com.tms.dicodingstory.data.User
 import com.tms.dicodingstory.data.exception.ApiException
 import com.tms.dicodingstory.data.remote.response.ErrorResponse
 import com.tms.dicodingstory.data.remote.response.ListStoryItem

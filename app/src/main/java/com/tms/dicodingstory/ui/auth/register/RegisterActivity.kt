@@ -1,5 +1,7 @@
 package com.tms.dicodingstory.ui.auth.register
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -29,10 +31,10 @@ class RegisterActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        playAnimation()
 
         val viewModelFactory = ViewModelFactory.getInstance(this)
         val registerViewModel by viewModels<RegisterViewModel> { viewModelFactory }
-
 
         binding.apply {
             btnGoToLogin.setOnClickListener {
@@ -78,7 +80,43 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
 
+    }
 
+    private fun playAnimation() {
+        ObjectAnimator.ofFloat(binding.imgDicodingRegister, View.TRANSLATION_X, -30f, 30f).apply {
+            duration = 6000
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+        }.start()
+
+        val animationDuration = 500L
+
+        val tvHeaderRegister =
+            ObjectAnimator.ofFloat(binding.tvHeaderRegister, View.ALPHA, 1f)
+                .setDuration(animationDuration)
+        val nameForm = ObjectAnimator.ofFloat(binding.nameEditText, View.ALPHA, 1f)
+            .setDuration(animationDuration)
+        val emailForm = ObjectAnimator.ofFloat(binding.registerEmailForm, View.ALPHA, 1f)
+            .setDuration(animationDuration)
+        val passwordForm =
+            ObjectAnimator.ofFloat(binding.registerPasswordForm, View.ALPHA, 1f)
+                .setDuration(animationDuration)
+        val btnSignUp =
+            ObjectAnimator.ofFloat(binding.btnSignUp, View.ALPHA, 1f).setDuration(animationDuration)
+        val textHasAcc = ObjectAnimator.ofFloat(binding.tvHasAccount, View.ALPHA, 1f)
+            .setDuration(animationDuration)
+        val btnGoToLogin =
+            ObjectAnimator.ofFloat(binding.btnGoToLogin, View.ALPHA, 1f)
+                .setDuration(animationDuration)
+
+        val together = AnimatorSet().apply {
+            playTogether(nameForm, emailForm, passwordForm)
+        }
+
+        AnimatorSet().apply {
+            playSequentially(tvHeaderRegister, together, btnSignUp, textHasAcc, btnGoToLogin)
+            start()
+        }
     }
 
     private fun showToast(message: String) {

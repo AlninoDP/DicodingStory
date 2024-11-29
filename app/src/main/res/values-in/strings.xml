@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="stories_image_description">Gambar dari Cerita</string>
+    <string name="btn_add_story_description">Tambah Cerita Kamu</string>
+    <string name="story_content_description">"Deskripsi Dari Cerita "</string>
+    <string name="permission_granted">Izin Diberikan</string>
+    <string name="permission_denied">Izin Ditolak</string>
+    <string name="empty_image">Pilih Gambar Dulu !</string>
+    <string name="empty_description">Deskripsi Cerita Masih Kosong !</string>
+    <string name="sign_in">Masuk</string>
+    <string name="sign_up">Daftar</string>
+    <string name="your_name">Nama Kamu</string>
+    <string name="log_out">Keluar</string>
+    <string name="empty_name">Nama Masih Kosong !</string>
+    <string name="invalid_email">Email Tidak Valid</string>
+    <string name="invalid_password">Password Harus 8 Karakter</string>
+    <string name="text_header_login">Masuk Ke Akun Kamu Untuk Berbagi Cerita Kamu</string>
+    <string name="text_header_register">Daftarkan Akun Kamu Disini Untuk Mulai Berbagi Cerita Kamu</string>
+    <string name="have_no_account">tidak punya akun ?</string>
+    <string name="has_account">sudah punya akun?</string>
+    <string name="stories_user_name">oleh %s</string>
+    <string name="list_of_story">Kumpulan Cerita</string>
+    <string name="story_detail">Detail Cerita</string>
+    <string name="story_detail_description">Deskripsi Cerita</string>
+    <string name="btn_upload_story">Unggah Cerita</string>
+
+</resources>

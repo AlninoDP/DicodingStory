@@ -2,7 +2,6 @@ package com.tms.dicodingstory
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         val mainViewModel by viewModels<MainViewModel> { viewModelFactory }
 
         mainViewModel.getUserToken().observe(this) {user ->
-            Log.d("MainActivity", "Token LOG: ${user.token}")
             if(user.token.isNotEmpty() ){
                 val intent = Intent(this, HomeActivity::class.java)
                 startActivity(intent)
