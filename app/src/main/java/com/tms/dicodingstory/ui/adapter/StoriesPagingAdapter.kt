@@ -1,19 +1,16 @@
-package com.tms.dicodingstory
+package com.tms.dicodingstory.ui.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.tms.dicodingstory.R
 import com.tms.dicodingstory.data.local.entity.StoryEntity
-import com.tms.dicodingstory.data.remote.response.ListStoryItem
 import com.tms.dicodingstory.databinding.StoriesItemBinding
 import com.tms.dicodingstory.ui.storydetail.StoryDetailActivity
-import com.tms.dicodingstory.utils.StoriesDiffCallback
 
 class StoriesPagingAdapter :
     PagingDataAdapter<StoryEntity, StoriesPagingAdapter.StoriesViewHolder>(DIFF_CALLBACK) {
@@ -23,6 +20,7 @@ class StoriesPagingAdapter :
         fun bind(story: StoryEntity) {
             Glide.with(itemView.context)
                 .load(story.photoUrl)
+                .placeholder(R.drawable.image_placeholder)
                 .into(binding.storiesImageItem)
 
             binding.storiesUserNameItem.text =
@@ -53,7 +51,7 @@ class StoriesPagingAdapter :
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<StoryEntity>() {
             override fun areItemsTheSame(oldItem: StoryEntity, newItem: StoryEntity): Boolean {
-                return oldItem == newItem
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: StoryEntity, newItem: StoryEntity): Boolean {

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -14,11 +13,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tms.dicodingstory.MainActivity
-import com.tms.dicodingstory.PagingLoadingStateAdapter
+import com.tms.dicodingstory.ui.adapter.PagingLoadingStateAdapter
 import com.tms.dicodingstory.R
-import com.tms.dicodingstory.StoriesAdapter
-import com.tms.dicodingstory.StoriesPagingAdapter
-import com.tms.dicodingstory.data.Result
+import com.tms.dicodingstory.ui.adapter.StoriesPagingAdapter
 import com.tms.dicodingstory.databinding.ActivityHomeBinding
 import com.tms.dicodingstory.ui.ViewModelFactory
 import com.tms.dicodingstory.ui.addstory.AddStoryActivity
@@ -78,49 +75,10 @@ class HomeActivity : AppCompatActivity() {
         binding.homeRv.layoutManager = LinearLayoutManager(this@HomeActivity)
         getStoryData()
 
-//        homeViewModel.getStories()
-//        val adapter = StoriesAdapter()
-//
-//        homeViewModel.storyList.observe(this) { result ->
-//            when (result) {
-//                is Result.Loading -> showLoading(result.state)
-//                is Result.Success -> {
-//                    val stories = result.data
-//                    adapter.submitList(stories)
-//                    binding.homeRv.adapter = adapter
-//                    binding.homeRv.layoutManager = LinearLayoutManager(this@HomeActivity)
-//                }
-//
-//                is Result.Failure -> {
-//                    showToast(result.throwable.message.toString())
-//                }
-//            }
-//        }
-
         binding.homeFab.setOnClickListener {
             startActivity(Intent(this, AddStoryActivity::class.java))
         }
 
-    }
-
-    private fun setUpAppbar() {
-        setSupportActionBar(binding.topAppBar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        binding.topAppBar.overflowIcon?.setTint(ContextCompat.getColor(this, R.color.white))
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        if (isLoading) {
-            binding.homeProgressBar.visibility = View.VISIBLE
-            binding.homeRv.visibility = View.GONE
-        } else {
-            binding.homeProgressBar.visibility = View.GONE
-            binding.homeRv.visibility = View.VISIBLE
-        }
     }
 
     private fun getStoryData() {
@@ -132,9 +90,25 @@ class HomeActivity : AppCompatActivity() {
         )
 
         homeViewModel.story.observe(this) {
-            adapter.submitData(lifecycle ,it)
+            adapter.submitData(lifecycle, it)
         }
     }
 
+    private fun setUpAppbar() {
+        setSupportActionBar(binding.topAppBar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        binding.topAppBar.overflowIcon?.setTint(ContextCompat.getColor(this, R.color.white))
+    }
+
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.homeProgressBar.visibility = View.VISIBLE
+            binding.homeRv.visibility = View.GONE
+        } else {
+            binding.homeProgressBar.visibility = View.GONE
+            binding.homeRv.visibility = View.VISIBLE
+        }
+    }
 
 }

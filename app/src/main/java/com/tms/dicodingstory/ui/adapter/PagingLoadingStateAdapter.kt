@@ -1,4 +1,4 @@
-package com.tms.dicodingstory
+package com.tms.dicodingstory.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tms.dicodingstory.databinding.ItemLoadingBinding
 
 class PagingLoadingStateAdapter(private val retry: () -> Unit) :
-
     LoadStateAdapter<PagingLoadingStateAdapter.LoadingStateViewHolder>() {
 
     class LoadingStateViewHolder(private val binding: ItemLoadingBinding, retry: () -> Unit) :
