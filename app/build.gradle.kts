@@ -46,6 +46,10 @@ android {
         jvmTarget = "11"
         freeCompilerArgs += listOf("-Xopt-in=kotlin.RequiresOptIn")
     }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -57,8 +61,20 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.play.services.maps)
     testImplementation(libs.junit)
+    testImplementation(libs.junit.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    androidTestImplementation(libs.androidx.core.testing)  // InstantTaskExecutorRule
+    androidTestImplementation(libs.kotlinx.coroutines.test) // TestDispatcher
+
+    // Core Testing and Coroutine Test
+    testImplementation(libs.androidx.core.testing)  // InstantTaskExecutorRule
+    testImplementation(libs.kotlinx.coroutines.test) // TestDispatcher
+
+    // Mockito
+    testImplementation("org.mockito:mockito-inline:5.2.0")
+    testImplementation(libs.mockito.core)
 
     // Retrofit
     implementation(libs.retrofit)

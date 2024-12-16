@@ -49,7 +49,7 @@ class StoriesPagingAdapter :
 
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<StoryEntity>() {
+          val DIFF_CALLBACK = object : DiffUtil.ItemCallback<StoryEntity>() {
             override fun areItemsTheSame(oldItem: StoryEntity, newItem: StoryEntity): Boolean {
                 return oldItem.id == newItem.id
             }
