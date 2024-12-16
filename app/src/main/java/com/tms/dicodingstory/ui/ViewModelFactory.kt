@@ -12,6 +12,7 @@ import com.tms.dicodingstory.ui.addstory.AddStoryViewModel
 import com.tms.dicodingstory.ui.auth.login.LoginViewModel
 import com.tms.dicodingstory.ui.auth.register.RegisterViewModel
 import com.tms.dicodingstory.ui.home.HomeViewModel
+import com.tms.dicodingstory.ui.maps.MapsViewModel
 
 class ViewModelFactory private constructor(
     private val mainRepository: MainRepository,
@@ -37,6 +38,7 @@ class ViewModelFactory private constructor(
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(mainRepository, preferencesRepository) as T
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(mainRepository,preferencesRepository) as T
             modelClass.isAssignableFrom(AddStoryViewModel::class.java) -> AddStoryViewModel(mainRepository) as T
+            modelClass.isAssignableFrom(MapsViewModel::class.java) -> MapsViewModel(mainRepository) as T
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }
     }

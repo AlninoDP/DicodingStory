@@ -1,35 +1,30 @@
-package com.tms.dicodingstory.ui.home
+package com.tms.dicodingstory.ui.maps
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.google.gson.Gson
 import com.tms.dicodingstory.data.MainRepository
-import com.tms.dicodingstory.data.PreferencesRepository
 import com.tms.dicodingstory.data.Result
 import com.tms.dicodingstory.data.exception.ApiException
-import com.tms.dicodingstory.data.local.entity.StoryEntity
 import com.tms.dicodingstory.data.remote.response.ErrorResponse
 import com.tms.dicodingstory.data.remote.response.ListStoryItem
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
-class HomeViewModel(
+class MapsViewModel(
     private val mainRepository: MainRepository,
-    private val preferencesRepository: PreferencesRepository
 ) : ViewModel() {
-
     private val _storyList = MutableLiveData<Result<List<ListStoryItem?>>>()
     val storyList: LiveData<Result<List<ListStoryItem?>>> = _storyList
 
-    fun getStories() {
+    fun getStoryWithLocation() {
         _storyList.value = Result.Loading(true)
+
         viewModelScope.launch {
             try {
-                val response = mainRepository.getStories()
+                val response = mainRepository.getStories(location = 1)
                 val stories = response.listStory
                 _storyList.value = Result.Success(stories ?: emptyList())
             } catch (e: HttpException) {
@@ -43,15 +38,6 @@ class HomeViewModel(
                 _storyList.value = Result.Loading(false)
             }
         }
+
     }
-
-    val story: LiveData<PagingData<StoryEntity>> =
-        mainRepository.getAllStories().cachedIn(viewModelScope)
-
-    fun logOut() {
-        viewModelScope.launch {
-            preferencesRepository.deleteUserToken()
-        }
-    }
-
 }

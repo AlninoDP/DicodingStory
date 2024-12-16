@@ -10,7 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.tms.dicodingstory.R
-import com.tms.dicodingstory.data.remote.response.ListStoryItem
+import com.tms.dicodingstory.data.local.entity.StoryEntity
 import com.tms.dicodingstory.databinding.ActivityStoryDetailBinding
 
 class StoryDetailActivity : AppCompatActivity() {
@@ -28,7 +28,7 @@ class StoryDetailActivity : AppCompatActivity() {
             insets
         }
         val story = if (Build.VERSION.SDK_INT >= 33) {
-            intent.getParcelableExtra(EXTRA_STORY, ListStoryItem::class.java)
+            intent.getParcelableExtra(EXTRA_STORY, StoryEntity::class.java)
         } else {
             @Suppress("DEPRECATION")
             intent.getParcelableExtra(EXTRA_STORY)
@@ -46,7 +46,7 @@ class StoryDetailActivity : AppCompatActivity() {
         return true
     }
 
-    private fun setUpStoryDetail(story: ListStoryItem) {
+    private fun setUpStoryDetail(story: StoryEntity) {
         binding.apply {
             Glide.with(this@StoryDetailActivity)
                 .load(story.photoUrl)

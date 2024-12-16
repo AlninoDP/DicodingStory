@@ -19,10 +19,12 @@
     <string name="your_name">Your Name</string>
     <string name="log_out">Log Out</string>
     <string name="language_settings">Language Settings</string>
+    <string name="go_to_map">Maps</string>
 
     <string name="empty_name">Name is Empty !</string>
     <string name="invalid_email">Invalid Email!</string>
     <string name="invalid_password">Password must be 8 character or more!</string>
+    <string name="retry">Try Again</string>
 
     <string name="text_header_login">Please sign in to your account to share your story</string>
     <string name="text_header_register">Register your account here and start sharing your story</string>
@@ -38,7 +40,7 @@
     <string name="btn_open_camera" translatable="false">Camera</string>
     <string name="btn_open_gallery" translatable="false">Gallery</string>
     <string name="btn_upload_story">Upload Story</string>
-
+    <string name="title_activity_maps" translatable="false">MapsActivity</string>
 
 
 </resources>

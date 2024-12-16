@@ -25,6 +25,10 @@
     <string name="story_detail_description">Deskripsi Cerita</string>
     <string name="btn_upload_story">Unggah Cerita</string>
     <string name="language_settings">Pengaturan Bahasa</string>
+    <string name="go_to_map">Peta</string>
+    <string name="retry">Coba Lagi</string>
+
+
 
 
 </resources>

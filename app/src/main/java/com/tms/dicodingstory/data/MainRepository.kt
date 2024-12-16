@@ -1,5 +1,13 @@
 package com.tms.dicodingstory.data
 
+import androidx.lifecycle.LiveData
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
+import com.tms.dicodingstory.data.local.entity.StoryEntity
+import com.tms.dicodingstory.data.local.room.StoryDatabase
 import com.tms.dicodingstory.data.remote.response.LoginResponse
 import com.tms.dicodingstory.data.remote.response.PostStoryResponse
 import com.tms.dicodingstory.data.remote.response.RegisterResponse
@@ -13,6 +21,7 @@ import java.io.File
 
 class MainRepository(
     private val apiService: ApiService,
+    private val storyDatabase: StoryDatabase
 ) {
     suspend fun registerUser(name: String, email: String, password: String): RegisterResponse {
         return apiService.register(name, email, password)
@@ -22,11 +31,26 @@ class MainRepository(
         return apiService.login(email, password)
     }
 
-    suspend fun getStories(): StoriesResponse {
-        return apiService.getStories()
+    suspend fun getStories(
+        page: Int? = null,
+        size: Int? = null,
+        location: Int? = null
+    ): StoriesResponse {
+        return apiService.getStories(page, size, location)
     }
 
-    suspend fun uploadStory(imageFile: File, description:String): PostStoryResponse {
+    fun getAllStories(): LiveData<PagingData<StoryEntity>> {
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
+            pagingSourceFactory = { storyDatabase.storyDao().getAllStories() }
+        ).liveData
+    }
+
+    suspend fun uploadStory(imageFile: File, description: String): PostStoryResponse {
         val requestBody = description.toRequestBody("text/plain".toMediaType())
         val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
         val multipartBody = MultipartBody.Part.createFormData(
@@ -34,7 +58,7 @@ class MainRepository(
             imageFile.name,
             requestImageFile
         )
-        return apiService.uploadStory(multipartBody,requestBody)
+        return apiService.uploadStory(multipartBody, requestBody)
     }
 
 }

@@ -14,4 +14,10 @@
         android:title="@string/language_settings"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/action_map"
+        android:icon="@drawable/ic_map"
+        android:title="@string/go_to_map"
+        app:showAsAction="ifRoom"/>
+
 </menu>

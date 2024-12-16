@@ -14,12 +14,15 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tms.dicodingstory.MainActivity
+import com.tms.dicodingstory.PagingLoadingStateAdapter
 import com.tms.dicodingstory.R
 import com.tms.dicodingstory.StoriesAdapter
+import com.tms.dicodingstory.StoriesPagingAdapter
 import com.tms.dicodingstory.data.Result
 import com.tms.dicodingstory.databinding.ActivityHomeBinding
 import com.tms.dicodingstory.ui.ViewModelFactory
 import com.tms.dicodingstory.ui.addstory.AddStoryActivity
+import com.tms.dicodingstory.ui.maps.MapsActivity
 
 class HomeActivity : AppCompatActivity() {
 
@@ -43,8 +46,14 @@ class HomeActivity : AppCompatActivity() {
                 showLoading(false)
                 true
             }
+
             R.id.action_language -> {
                 startActivity(Intent(android.provider.Settings.ACTION_LOCALE_SETTINGS))
+                true
+            }
+
+            R.id.action_map -> {
+                startActivity(Intent(this, MapsActivity::class.java))
                 true
             }
 
@@ -66,24 +75,27 @@ class HomeActivity : AppCompatActivity() {
         val viewModelFactory = ViewModelFactory.getInstance(this)
         homeViewModel = viewModels<HomeViewModel> { viewModelFactory }.value
 
-        homeViewModel.getStories()
-        val adapter = StoriesAdapter()
+        binding.homeRv.layoutManager = LinearLayoutManager(this@HomeActivity)
+        getStoryData()
 
-        homeViewModel.storyList.observe(this) { result ->
-            when (result) {
-                is Result.Loading -> showLoading(result.state)
-                is Result.Success -> {
-                    val stories = result.data
-                    adapter.submitList(stories)
-                    binding.homeRv.adapter = adapter
-                    binding.homeRv.layoutManager = LinearLayoutManager(this@HomeActivity)
-                }
-
-                is Result.Failure -> {
-                    showToast(result.throwable.message.toString())
-                }
-            }
-        }
+//        homeViewModel.getStories()
+//        val adapter = StoriesAdapter()
+//
+//        homeViewModel.storyList.observe(this) { result ->
+//            when (result) {
+//                is Result.Loading -> showLoading(result.state)
+//                is Result.Success -> {
+//                    val stories = result.data
+//                    adapter.submitList(stories)
+//                    binding.homeRv.adapter = adapter
+//                    binding.homeRv.layoutManager = LinearLayoutManager(this@HomeActivity)
+//                }
+//
+//                is Result.Failure -> {
+//                    showToast(result.throwable.message.toString())
+//                }
+//            }
+//        }
 
         binding.homeFab.setOnClickListener {
             startActivity(Intent(this, AddStoryActivity::class.java))
@@ -110,4 +122,19 @@ class HomeActivity : AppCompatActivity() {
             binding.homeRv.visibility = View.VISIBLE
         }
     }
+
+    private fun getStoryData() {
+        val adapter = StoriesPagingAdapter()
+        binding.homeRv.adapter = adapter.withLoadStateFooter(
+            footer = PagingLoadingStateAdapter {
+                adapter.retry()
+            }
+        )
+
+        homeViewModel.story.observe(this) {
+            adapter.submitData(lifecycle ,it)
+        }
+    }
+
+
 }
