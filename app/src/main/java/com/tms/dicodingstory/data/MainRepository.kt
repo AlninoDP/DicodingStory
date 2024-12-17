@@ -1,6 +1,7 @@
 package com.tms.dicodingstory.data
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -8,6 +9,7 @@ import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.tms.dicodingstory.data.local.entity.StoryEntity
 import com.tms.dicodingstory.data.local.room.StoryDatabase
+import com.tms.dicodingstory.data.remote.response.ListStoryItem
 import com.tms.dicodingstory.data.remote.response.LoginResponse
 import com.tms.dicodingstory.data.remote.response.PostStoryResponse
 import com.tms.dicodingstory.data.remote.response.RegisterResponse
@@ -31,12 +33,16 @@ class MainRepository(
         return apiService.login(email, password)
     }
 
-    suspend fun getStories(
-        page: Int? = null,
-        size: Int? = null,
-        location: Int? = null
-    ): StoriesResponse {
-        return apiService.getStories(page, size, location)
+    fun getStoryListForMap(): LiveData<Result<List<ListStoryItem>>> = liveData {
+        emit(Result.Loading(true))
+        try{
+            val response = apiService.getStories(size = 20, location = 1)
+            val stories = response.listStory
+            emit(Result.Loading(false))
+            emit(Result.Success(stories))
+        } catch (e: Exception){
+            emit(Result.Failure(e))
+        }
     }
 
     fun getAllStories(): LiveData<PagingData<StoryEntity>> {

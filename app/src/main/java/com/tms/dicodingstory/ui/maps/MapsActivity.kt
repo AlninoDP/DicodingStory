@@ -1,6 +1,7 @@
 package com.tms.dicodingstory.ui.maps
 
 import android.content.res.Resources
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -60,7 +61,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         setMapStyle()
 
 
-        mapsViewModel.storyList.observe(this) { result ->
+        mapsViewModel.getStoryWithLocation().observe(this) { result ->
             when (result) {
                 is Result.Loading -> showLoading(result.state)
                 is Result.Success -> {
@@ -79,27 +80,57 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+
     private fun addStoryMarkers(storyList: List<ListStoryItem?>) {
+
+        var adjustment = 0.0
+        val adjustedLatLng = mutableListOf<LatLng>()
+
         storyList.forEach { story ->
             val storyLat = story?.lat?.toDouble() ?: 0.0
             val storyLng = story?.lon?.toDouble() ?: 0.0
-            val latLng = LatLng(storyLat, storyLng)
-            boundsBuilder.include(latLng)
+            val latLng = LatLng(storyLat + adjustment, storyLng + adjustment)
 
             mMap.addMarker(
                 MarkerOptions()
                     .position(latLng)
                     .title(story?.name)
+                    .snippet(story?.description)
             )
+
+            adjustedLatLng.add(latLng)
+            adjustment += 0.00001
         }
 
-        val bounds: LatLngBounds = boundsBuilder.build()
+        // Find the center LatLng from the first item in the adjusted list
+        val centerLatLng = adjustedLatLng.firstOrNull() ?: return
+
+        // Set the max distance allowed from the center
+        val maxDistance = 5000000.0 // 5000 Km
+
+        val filteredLatLng = adjustedLatLng.filter {
+            val distance = FloatArray(1)
+
+            // Calculate the distance between the center point and the current LatLng
+            Location.distanceBetween(
+                centerLatLng.latitude, centerLatLng.longitude,
+                it.latitude, it.longitude,
+                distance
+            )
+
+            // Include only LatLng within the specified maximum distance
+            distance[0] <= maxDistance
+        }
+
+        // Include filtered marker into the bound
+        filteredLatLng.forEach { boundsBuilder.include(it) }
+        val bounds = boundsBuilder.build()
         mMap.animateCamera(
             CameraUpdateFactory.newLatLngBounds(
                 bounds,
                 resources.displayMetrics.widthPixels,
                 resources.displayMetrics.heightPixels,
-                200
+                350
             )
         )
     }
