@@ -17,27 +17,44 @@ import com.tms.dicodingstory.ui.maps.MapsViewModel
 class ViewModelFactory private constructor(
     private val mainRepository: MainRepository,
     private val preferencesRepository: PreferencesRepository
-) : ViewModelProvider.NewInstanceFactory(){
-    companion object{
+) : ViewModelProvider.NewInstanceFactory() {
+    companion object {
         @Volatile
-        private var instance: ViewModelFactory? =null
+        private var instance: ViewModelFactory? = null
 
         fun getInstance(context: Context): ViewModelFactory =
-            instance ?: synchronized(this){
+            instance ?: synchronized(this) {
                 val repository = Injection.provideRepository(context)
                 val preferences = PreferencesRepository.getInstance(context.dataStore)
                 instance ?: ViewModelFactory(repository, preferences)
-        }.also { instance = it }
+            }.also { instance = it }
     }
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
-            modelClass.isAssignableFrom(MainViewModel::class.java) -> MainViewModel(preferencesRepository) as T
-            modelClass.isAssignableFrom(RegisterViewModel::class.java) -> RegisterViewModel(mainRepository) as T
-            modelClass.isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(mainRepository, preferencesRepository) as T
-            modelClass.isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(mainRepository,preferencesRepository) as T
-            modelClass.isAssignableFrom(AddStoryViewModel::class.java) -> AddStoryViewModel(mainRepository) as T
+            modelClass.isAssignableFrom(MainViewModel::class.java) -> MainViewModel(
+                preferencesRepository
+            ) as T
+
+            modelClass.isAssignableFrom(RegisterViewModel::class.java) -> RegisterViewModel(
+                mainRepository
+            ) as T
+
+            modelClass.isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(
+                mainRepository,
+                preferencesRepository
+            ) as T
+
+            modelClass.isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(
+                mainRepository,
+                preferencesRepository
+            ) as T
+
+            modelClass.isAssignableFrom(AddStoryViewModel::class.java) -> AddStoryViewModel(
+                mainRepository
+            ) as T
+
             modelClass.isAssignableFrom(MapsViewModel::class.java) -> MapsViewModel(mainRepository) as T
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }

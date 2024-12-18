@@ -12,6 +12,6 @@ object Injection {
         val dataStore = context.dataStore
         val database = StoryDatabase.getDatabase(context)
         val apiService = ApiConfig.getApiService(dataStore)
-        return MainRepository(apiService,database)
+        return MainRepository(apiService, database)
     }
 }

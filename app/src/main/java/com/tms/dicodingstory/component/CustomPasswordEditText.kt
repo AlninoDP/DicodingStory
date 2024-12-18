@@ -41,7 +41,7 @@ class CustomPasswordEditText @JvmOverloads constructor(
 
     fun getPassword(): String = binding.passwordEditText.text.toString().trim()
 
-    companion object {
+   private companion object {
         private const val MIN_PASSWORD_LENGTH = 8
     }
 }

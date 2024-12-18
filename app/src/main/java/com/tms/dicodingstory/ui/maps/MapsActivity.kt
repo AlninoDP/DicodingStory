@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -67,7 +66,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 is Result.Success -> {
                     val data = result.data
                     addStoryMarkers(data)
-                    Log.d("AA","DATANYA $data")
                 }
 
                 is Result.Failure -> {

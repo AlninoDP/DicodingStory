@@ -75,6 +75,7 @@ class RegisterActivity : AppCompatActivity() {
                         showToast(response.message)
                     }
                 }
+
                 is Result.Failure -> showToast(result.throwable.message.toString())
 
             }

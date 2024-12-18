@@ -14,9 +14,8 @@ import com.tms.dicodingstory.data.local.entity.StoryEntity
 )
 abstract class StoryDatabase : RoomDatabase() {
 
-    abstract fun storyDao():StoryDao
+    abstract fun storyDao(): StoryDao
     abstract fun remoteKeysDao(): RemoteKeysDao
-
 
 
     companion object {

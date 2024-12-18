@@ -25,12 +25,12 @@ class MainActivity : AppCompatActivity() {
         val viewModelFactory = ViewModelFactory.getInstance(this)
         val mainViewModel by viewModels<MainViewModel> { viewModelFactory }
 
-        mainViewModel.getUserToken().observe(this) {user ->
-            if(user.token.isNotEmpty() ){
+        mainViewModel.getUserToken().observe(this) { user ->
+            if (user.token.isNotEmpty()) {
                 val intent = Intent(this, HomeActivity::class.java)
                 startActivity(intent)
                 finish()
-            }else {
+            } else {
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()

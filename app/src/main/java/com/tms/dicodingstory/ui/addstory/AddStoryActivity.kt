@@ -16,6 +16,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.tms.dicodingstory.R
 import com.tms.dicodingstory.data.Result
 import com.tms.dicodingstory.databinding.ActivityAddStoryBinding
@@ -28,11 +30,12 @@ import com.tms.dicodingstory.utils.uriToFile
 class AddStoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddStoryBinding
-
     private lateinit var addStoryViewModel: AddStoryViewModel
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         enableEdgeToEdge()
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -45,11 +48,11 @@ class AddStoryActivity : AppCompatActivity() {
         addStoryViewModel = viewModels<AddStoryViewModel> { viewModelFactory }.value
 
         setUpAppbar()
-        requestPermissionsIfNeeded()
+        requestCameraPermissionsIfNeeded()
         showImage()
 
-        addStoryViewModel.postStoryResponse.observe(this@AddStoryActivity){ result ->
-            when(result){
+        addStoryViewModel.postStoryResponse.observe(this@AddStoryActivity) { result ->
+            when (result) {
                 is Result.Loading -> showLoading(result.state)
                 is Result.Success -> {
                     val response = result.data
@@ -63,6 +66,7 @@ class AddStoryActivity : AppCompatActivity() {
                         showToast(response.message)
                     }
                 }
+
                 is Result.Failure -> showToast(result.throwable.message.toString())
             }
         }
@@ -81,14 +85,32 @@ class AddStoryActivity : AppCompatActivity() {
                 startCamera()
             }
 
+            addLocationSwitch.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    getMyLocation()
+                }
+            }
+
             addGoalBtnUpload.setOnClickListener {
                 val imageUri = addStoryViewModel.imageUri.value
                 val description = addStoryViewModel.descriptionText.value
+                val currentLocation = addStoryViewModel.currentLocation.value
+                val lat = currentLocation?.latitude?.toFloat()
+                val lng = currentLocation?.longitude?.toFloat()
 
                 imageUri?.let {
+                    val imageFile = uriToFile(imageUri, this@AddStoryActivity).reduceFileImage()
                     description?.let {
-                        val imageFile = uriToFile(imageUri, this@AddStoryActivity).reduceFileImage()
-                        addStoryViewModel.uploadStory(imageFile, description)
+                        if (addLocationSwitch.isChecked) {
+                            addStoryViewModel.uploadStory(
+                                uriToFile(
+                                    imageUri,
+                                    this@AddStoryActivity
+                                ), description, lat, lng
+                            )
+                        } else {
+                            addStoryViewModel.uploadStory(imageFile, description)
+                        }
                     } ?: showToast(getString(R.string.empty_description))
                 } ?: showToast(getString(R.string.empty_image))
 
@@ -96,6 +118,22 @@ class AddStoryActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    private fun getMyLocation() {
+        if (LOCATION_PERMISSION.all { checkPermission(it) }) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                if (location != null) {
+                    addStoryViewModel.updateCurrentLocation(location)
+                } else {
+                    showToast(getString(R.string.location_not_found))
+                }
+            }
+        } else {
+            requestLocationPermissionLauncher.launch(
+                LOCATION_PERMISSION
+            )
+        }
     }
 
     // Camera
@@ -139,22 +177,43 @@ class AddStoryActivity : AppCompatActivity() {
     }
 
     /// Request Permission
-    private fun requestPermissionsIfNeeded() {
-        if (!allPermissionGranted()) {
-            requestPermissionLauncher.launch(REQUIRED_PERMISSION)
+    private fun requestCameraPermissionsIfNeeded() {
+        if (!checkPermission(CAMERA_PERMISSION)) {
+            requestCameraPermissionLauncher.launch(CAMERA_PERMISSION)
         }
     }
 
-    private fun allPermissionGranted() =
+    private fun checkPermission(permission: String): Boolean =
         ContextCompat.checkSelfPermission(
             this@AddStoryActivity,
-            REQUIRED_PERMISSION
+            permission
         ) == PackageManager.PERMISSION_GRANTED
 
-    private val requestPermissionLauncher =
+    private val requestLocationPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            when {
+                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+                    // Precise location access granted.
+                    getMyLocation()
+                }
+
+                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                    // Only approximate location access granted.
+                    getMyLocation()
+                }
+
+                else -> {
+                    showToast(getString(R.string.location_permission_denied))
+                }
+            }
+        }
+
+    private val requestCameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             val message =
-                if (isGranted) getString(R.string.permission_granted) else getString(R.string.permission_denied)
+                if (isGranted) getString(R.string.camera_permission_granted) else getString(R.string.camera_permission_denied)
             showToast(message)
         }
 
@@ -184,8 +243,14 @@ class AddStoryActivity : AppCompatActivity() {
         return true
     }
 
-    companion object {
-        private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
+    private companion object {
+        private const val CAMERA_PERMISSION = Manifest.permission.CAMERA
+
+        private val LOCATION_PERMISSION = arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+
     }
 
 }

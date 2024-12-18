@@ -73,7 +73,7 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test) // TestDispatcher
 
     // Mockito
-    testImplementation("org.mockito:mockito-inline:5.2.0")
+    testImplementation(libs.mockito.inline)
     testImplementation(libs.mockito.core)
 
     // Retrofit
@@ -106,4 +106,6 @@ dependencies {
 
     // Exif
     implementation(libs.androidx.exifinterface)
+
+    implementation(libs.play.services.location)
 }

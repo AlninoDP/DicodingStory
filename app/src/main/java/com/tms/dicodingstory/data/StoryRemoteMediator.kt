@@ -81,20 +81,20 @@ class StoryRemoteMediator(
                 database.storyDao().insertStory(storyEntities)
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
-        }catch (e: Exception){
+        } catch (e: Exception) {
             return MediatorResult.Error(e)
         }
 
     }
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, StoryEntity>): RemoteKeys? {
-        return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { data ->
+        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { data ->
             database.remoteKeysDao().getRemoteKeysId(data.id)
         }
     }
 
     private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, StoryEntity>): RemoteKeys? {
-        return state.pages.firstOrNull() { it.data.isNotEmpty() }?.data?.firstOrNull()
+        return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { data ->
                 database.remoteKeysDao().getRemoteKeysId(data.id)
             }

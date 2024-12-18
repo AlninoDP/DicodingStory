@@ -13,7 +13,6 @@ import com.tms.dicodingstory.data.remote.response.ListStoryItem
 import com.tms.dicodingstory.data.remote.response.LoginResponse
 import com.tms.dicodingstory.data.remote.response.PostStoryResponse
 import com.tms.dicodingstory.data.remote.response.RegisterResponse
-import com.tms.dicodingstory.data.remote.response.StoriesResponse
 import com.tms.dicodingstory.data.remote.retrofit.ApiService
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -35,12 +34,12 @@ class MainRepository(
 
     fun getStoryListForMap(): LiveData<Result<List<ListStoryItem>>> = liveData {
         emit(Result.Loading(true))
-        try{
+        try {
             val response = apiService.getStories(size = 20, location = 1)
             val stories = response.listStory
             emit(Result.Loading(false))
             emit(Result.Success(stories))
-        } catch (e: Exception){
+        } catch (e: Exception) {
             emit(Result.Failure(e))
         }
     }
@@ -56,15 +55,32 @@ class MainRepository(
         ).liveData
     }
 
-    suspend fun uploadStory(imageFile: File, description: String): PostStoryResponse {
+    suspend fun uploadStory(
+        imageFile: File, description: String,
+        latitude: Float? = null,
+        longitude: Float? = null
+    ): PostStoryResponse {
+        // Prepare description
         val requestBody = description.toRequestBody("text/plain".toMediaType())
+
+        // Prepare Image File
         val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
         val multipartBody = MultipartBody.Part.createFormData(
             "photo",
             imageFile.name,
             requestImageFile
         )
-        return apiService.uploadStory(multipartBody, requestBody)
+
+        // Prepare latitude and longitude
+        val latitudeRequestBody = latitude?.toString()?.toRequestBody("text/plain".toMediaType())
+        val longitudeRequestBody = longitude?.toString()?.toRequestBody("text/plain".toMediaType())
+
+        return apiService.uploadStory(
+            multipartBody,
+            requestBody,
+            latitudeRequestBody,
+            longitudeRequestBody
+        )
     }
 
 }

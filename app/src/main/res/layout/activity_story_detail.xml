@@ -34,7 +34,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:contentDescription="@string/stories_image_description"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/top_app_bar"
@@ -47,11 +47,38 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:textSize="18sp"
+        android:textSize="22sp"
+        android:textStyle="bold"
         android:text="@string/story_detail_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/story_detail_image" />
+
+    <TextView
+        android:id="@+id/story_detail_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="22sp"
+        android:text="@string/story_detail_location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/story_detail_description" />
+
+    <TextView
+        android:id="@+id/story_detail_lat_lng"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/story_detail_location_detail"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/story_detail_location"
+        app:layout_constraintStart_toStartOf="@+id/story_detail_location"
+        app:layout_constraintTop_toBottomOf="@+id/story_detail_location" />
 
     <TextView
         android:id="@+id/story_detail_user_name"
@@ -66,7 +93,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/story_detail_description" />
+        app:layout_constraintTop_toBottomOf="@+id/story_detail_lat_lng" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

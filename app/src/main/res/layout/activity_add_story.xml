@@ -85,13 +85,31 @@
             tools:ignore="ButtonStyle" />
     </LinearLayout>
 
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/add_location_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_current_location_switch_text"
+        app:trackTint="@color/custom_switch_track_color"
+        app:thumbTint="@color/navy_blue"
+        app:switchPadding="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="@color/navy_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_story_row_btn" />
+
     <EditText
         android:id="@+id/add_story_edt_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:autofillHints="description"
         android:background="@drawable/story_description_background"
         android:gravity="top|start"
@@ -103,7 +121,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_story_row_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/add_location_switch" />
 
     <Button
         android:id="@+id/add_goal_btn_upload"

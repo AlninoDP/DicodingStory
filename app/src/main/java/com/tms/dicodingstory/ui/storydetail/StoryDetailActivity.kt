@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide
 import com.tms.dicodingstory.R
 import com.tms.dicodingstory.data.local.entity.StoryEntity
 import com.tms.dicodingstory.databinding.ActivityStoryDetailBinding
+import com.tms.dicodingstory.utils.capitalizeWords
+import java.util.Locale
 
 class StoryDetailActivity : AppCompatActivity() {
 
@@ -52,8 +54,16 @@ class StoryDetailActivity : AppCompatActivity() {
                 .load(story.photoUrl)
                 .into(storyDetailImage)
 
-            storyDetailDescription.text = story.description
-            storyDetailUserName.text = getString(R.string.stories_user_name, story.name)
+            val formattedLat =
+                story.lat?.let { String.format(Locale.getDefault(), "%.4f", it.toFloat()) } ?: "-"
+            val formattedLon =
+                story.lon?.let { String.format(Locale.getDefault(), "%.4f", it.toFloat()) } ?: "-"
+
+            storyDetailDescription.text = capitalizeWords(story.description)
+            storyDetailUserName.text =
+                capitalizeWords(getString(R.string.stories_user_name, story.name))
+            storyDetailLatLng.text =
+                getString(R.string.story_detail_location_detail, formattedLat, formattedLon)
         }
     }
 
@@ -64,7 +74,7 @@ class StoryDetailActivity : AppCompatActivity() {
         binding.topAppBar.navigationIcon?.setTint(ContextCompat.getColor(this, R.color.white))
     }
 
-    private fun showError(){
+    private fun showError() {
         Toast.makeText(this@StoryDetailActivity, "Story not found", Toast.LENGTH_SHORT).show()
         finish()
     }
