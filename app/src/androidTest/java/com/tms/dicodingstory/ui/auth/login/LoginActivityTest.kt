@@ -36,7 +36,6 @@ class LoginActivityTest {
 
     @Test
     fun loginSuccess() {
-
         // Write email to the edit text
         onView(
             AllOf.allOf(
@@ -57,7 +56,6 @@ class LoginActivityTest {
         onView(withId(R.id.btn_sign_in)).perform(click())
         // Check if the RecyclerView in HomeActivity is displayed
         onView(withId(R.id.home_rv)).check(matches(isDisplayed()))
-
     }
 
 }
