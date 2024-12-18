@@ -37,7 +37,7 @@
     <string name="list_of_story">List of Story</string>
     <string name="story_detail">Story Detail</string>
     <string name="story_detail_description">Story Description</string>
-    <string name="story_detail_location">Story Created In:</string>
+    <string name="story_detail_location">Story Created At:</string>
     <string name="story_detail_location_detail" translatable="false">Latitude: %1$s\nLongitude: %2$s</string>
 
     <string name="btn_open_camera" translatable="false">Camera</string>
