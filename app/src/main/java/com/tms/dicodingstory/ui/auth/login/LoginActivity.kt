@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.animation.doOnEnd
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.tms.dicodingstory.R
@@ -18,8 +17,6 @@ import com.tms.dicodingstory.databinding.ActivityLoginBinding
 import com.tms.dicodingstory.ui.ViewModelFactory
 import com.tms.dicodingstory.ui.auth.register.RegisterActivity
 import com.tms.dicodingstory.ui.home.HomeActivity
-import com.tms.dicodingstory.utils.EspressoIdlingResource
-import com.tms.dicodingstory.utils.wrapEspressoIdlingResource
 
 class LoginActivity : AppCompatActivity() {
 
@@ -35,8 +32,7 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-            playAnimation()
+        playAnimation()
 
         val viewModelFactory = ViewModelFactory.getInstance(this)
         val loginViewModel by viewModels<LoginViewModel> { viewModelFactory }
@@ -101,8 +97,8 @@ class LoginActivity : AppCompatActivity() {
 
     private fun playAnimation() {
         ObjectAnimator.ofFloat(binding.imgDicodingLogin, View.TRANSLATION_X, -30f, 30f).apply {
-            duration = 3000
-            repeatCount = 1
+            duration = 5000
+            repeatCount = ObjectAnimator.INFINITE
             repeatMode = ObjectAnimator.REVERSE
         }.start()
         val animationDuration = 500L
@@ -129,7 +125,7 @@ class LoginActivity : AppCompatActivity() {
 
         AnimatorSet().apply {
             playSequentially(tvHeaderLogin, together, btnSignIn, textNoAcc, btnGoToRegister)
-
+            start()
         }
 
     }
