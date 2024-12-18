@@ -44,7 +44,7 @@ class HomeViewModelTest {
     private lateinit var preferencesRepository: PreferencesRepository
 
     @Test
-    fun `when Get Story Should Not Null Return Data`() = runTest {
+    fun `when Get Story Should Not Null And Return Data`() = runTest {
         val dummyStoryEntities = DataDummy.generateDummyStoryEntity()
         val data: PagingData<StoryEntity> = StoryPagingSource.snapshot(dummyStoryEntities)
 

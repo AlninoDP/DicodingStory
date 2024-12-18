@@ -62,8 +62,13 @@ dependencies {
     implementation(libs.play.services.maps)
     testImplementation(libs.junit)
     testImplementation(libs.junit.junit)
+    testImplementation(libs.junit.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.espresso.intents)
+
+    // Idling Resource
+    implementation(libs.espresso.idling.resource)
 
     androidTestImplementation(libs.androidx.core.testing)  // InstantTaskExecutorRule
     androidTestImplementation(libs.kotlinx.coroutines.test) // TestDispatcher
@@ -107,5 +112,6 @@ dependencies {
     // Exif
     implementation(libs.androidx.exifinterface)
 
+    // Play Service Location
     implementation(libs.play.services.location)
 }
