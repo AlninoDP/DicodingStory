@@ -54,8 +54,34 @@ class LoginActivityTest {
 
         // Click the sign in button and wait
         onView(withId(R.id.btn_sign_in)).perform(click())
+
         // Check if the RecyclerView in HomeActivity is displayed
         onView(withId(R.id.home_rv)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun loginFailed() {
+        // Write email to the edit text
+        onView(
+            AllOf.allOf(
+                isDescendantOfA(withId(R.id.login_email_form)),
+                withId(R.id.email_edit_text)
+            )
+        ).perform(typeText("valintest@gmail.com"), closeSoftKeyboard())
+
+        // Write password to the edit text
+        onView(
+            AllOf.allOf(
+                isDescendantOfA(withId(R.id.login_password_form)),
+                withId(R.id.password_edit_text)
+            )
+        ).perform(typeText("12345678"), closeSoftKeyboard())
+
+        // Click the sign in button and wait
+        onView(withId(R.id.btn_sign_in)).perform(click())
+
+        // Check if the sign in button is displayed
+        onView(withId(R.id.btn_sign_in)).check(matches(isDisplayed()))
     }
 
 }
